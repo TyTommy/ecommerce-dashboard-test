@@ -12,12 +12,14 @@ import {
 const { Sider } = Layout;
 const { Title } = Typography;
 
-const SiderComponent = ({collapsed}) => {
+const SiderComponent = ({ collapsed }) => {
   return (
     <>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Title level={3} className="text-center pt-3"><span className="text-white">Ecommerce</span></Title>
+        <Title level={3} className="text-center pt-3">
+          <span className="text-white">Ecommerce</span>
+        </Title>
         <Menu
           theme="dark"
           mode="inline"

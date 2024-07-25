@@ -1,7 +1,9 @@
-import { useRoutes } from "react-router-dom";
-import { lazy } from "react";
+import { useLocation, useNavigate, useRoutes } from "react-router-dom";
+import { lazy, useEffect } from "react";
 
 import Suspense from "../utils/index";
+import { useSelector } from "react-redux";
+import Profile from "./dashboard/profile/Profile";
 
 const Home = lazy(() => import("./home/Home"));
 const Auth = lazy(() => import("./auth/Auth"));
@@ -13,6 +15,20 @@ const Products = lazy(() => import("./dashboard/products/Products"));
 const Users = lazy(() => import("./dashboard/users/Users"));
 
 const RouteController = () => {
+  const location = useLocation();
+
+  const user = useSelector((state) => state.user);
+
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === "/" && user) {
+      navigator("/dashboard");
+    } else if (user === null) {
+      navigator("/auth");
+    }
+  });
+
   return useRoutes([
     {
       path: "",
@@ -71,6 +87,14 @@ const RouteController = () => {
           element: (
             <Suspense>
               <Users />
+            </Suspense>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <Suspense>
+              <Profile />
             </Suspense>
           ),
         },

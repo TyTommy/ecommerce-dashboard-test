@@ -9,12 +9,12 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import axios from "axios";
 import TelegramLoginButton from "telegram-login-button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom/dist";
+import { save_user } from "../../../redux/actions";
 
 const { Title, Text } = Typography;
 
@@ -61,9 +61,16 @@ const Login = () => {
     //   setLoading(false);
     // }
     const { username, password } = values;
-    if (username === "kamol96" && password === "123") {
+    if (username === "khan96" && password === "12345") {
       toast.success("Logged in successfully");
       navigator("/dashboard");
+      dispatch(
+        save_user({
+          username,
+          password,
+          loggedDate: new Date().toLocaleString(),
+        })
+      );
     } else {
       toast.error("Invalid username or password");
     }
@@ -148,21 +155,22 @@ const Login = () => {
           {" "}
           <span className="text-gray-500">Or</span>
         </Divider>
-        <GoogleLogin
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-          useOneTap
-        />
+        <div className="flex justify-center flex-col items-center gap-[10px]">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+            useOneTap
+          />
 
-        <TelegramLoginButton
-          className="text-center"
-          botName={import.meta.env.VITE_TELEGRAM_BOT_USERNAME}
-          dataOnauth={(user) => console.log(user)}
-        />
+          <TelegramLoginButton
+            botName={import.meta.env.VITE_TELEGRAM_BOT_USERNAME}
+            dataOnauth={(user) => console.log(user)}
+          />
+        </div>
 
         <Text className="mt-[20px] block text-center">
           {" "}

@@ -1,10 +1,16 @@
 import { Layout } from "antd";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sider from "../../components/sider/sider.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { clear_user } from "../../redux/actions/index.js";
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const navigator = useNavigate();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -43,6 +49,7 @@ const Dashboard = () => {
               }}
             />
             <div
+              onClick={() => navigator("profile")}
               className="avatar"
               style={{
                 width: "30px",
@@ -57,6 +64,25 @@ const Dashboard = () => {
               }}
             >
               K
+            </div>
+            <div
+              onClick={() => {
+                dispatch(clear_user());
+                navigator("/auth");
+              }}
+              className="bg-light"
+              style={{
+                height: "30px",
+                borderRadius: "4px",
+                backgroundColor: "green",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "0 10px",
+              }}
+            >
+              Sign out
             </div>
           </div>
         </header>

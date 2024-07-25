@@ -1,20 +1,22 @@
 const intialState = {
-  token: null,
+  // user: {
+  //   username: "Khan",
+  //   loggedDate: new Date().toLocaleString(),
+  //   password: "123",
+  // },
   user: null,
 };
 
 const authReducer = (state = intialState, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case "SAVE_USER":
       return {
         ...state,
-        token: action.token,
-        user: action.user,
+        user: action.payload,
       };
-    case "LOGOUT":
+    case "CLEAR_USER":
       return {
         ...state,
-        token: null,
         user: null,
       };
     default:

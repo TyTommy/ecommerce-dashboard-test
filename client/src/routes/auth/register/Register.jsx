@@ -1,10 +1,19 @@
-import { Button, Checkbox, Form, Input, Typography, notification } from "antd";
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Form,
+  Input,
+  Typography,
+  notification,
+} from "antd";
 import { Link } from "react-router-dom";
 const { Title, Text } = Typography;
 import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
+import TelegramLoginButton from "telegram-login-button";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -75,6 +84,7 @@ const Register = () => {
       >
         <Title className="text-center">Register</Title>
         <Form.Item
+          style={{ marginBottom: "10px" }}
           label="Firstname"
           name="firstname"
           rules={[
@@ -88,6 +98,7 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
+          style={{ marginBottom: "10px" }}
           label="Username"
           name="username"
           rules={[
@@ -101,6 +112,7 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
+          style={{ marginBottom: "10px" }}
           label="Password"
           name="password"
           rules={[
@@ -114,19 +126,6 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
-          label="Photo URL"
-          name="photo_url"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Photo URL!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
           name="remember"
           valuePropName="checked"
           wrapperCol={{
@@ -137,6 +136,7 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
+          style={{ marginBottom: "10px" }}
           className="w-full"
           wrapperCol={{
             span: 24,
@@ -151,18 +151,31 @@ const Register = () => {
             Register
           </Button>
         </Form.Item>
-        <GoogleLogin
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-          useOneTap
-        />
 
-        <Text className="flex justify-center items-center">
-          <span className="my-1">Already have an account?</span>{" "}
+        <Divider>
+          {" "}
+          <span className="text-gray-500">Or</span>
+        </Divider>
+
+        <div className="flex justify-center flex-col items-center gap-[10px]">
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+            useOneTap
+          />
+
+          <TelegramLoginButton
+            botName={import.meta.env.VITE_TELEGRAM_BOT_USERNAME}
+            dataOnauth={(user) => console.log(user)}
+          />
+        </div>
+
+        <Text className="flex justify-center items-center gap-1">
+          <span className="my-2">Already have an account?</span>{" "}
           <Link to={"/auth"}>Login</Link>
         </Text>
       </Form>
